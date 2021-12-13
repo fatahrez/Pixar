@@ -23,8 +23,8 @@ class PixarRepositoryImpl(
 
         try {
             val remoteImages = api.getSearchImage(key, search_word).hits
-            dao.deleteImages(remoteImages.map { it.toHitEntity() })
-            dao.getSearchedWords(search_word)
+            dao.deleteImages()
+            dao.insertImages(remoteImages.map { it.toHitEntity() })
         } catch (e: HttpException) {
             emit(Resource.Error(
                 message = "Oops, something went wrong!",

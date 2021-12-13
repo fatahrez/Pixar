@@ -3,6 +3,8 @@ package com.fatah.pixar.feature_search.di
 import android.app.Application
 import androidx.room.Room
 import com.fatah.pixar.feature_search.data.local.PixarDatabase
+import com.fatah.pixar.feature_search.data.remote.HttpClient
+import com.fatah.pixar.feature_search.data.remote.HttpLogger
 import com.fatah.pixar.feature_search.data.remote.PixarApi
 import com.fatah.pixar.feature_search.data.repository.PixarRepositoryImpl
 import com.fatah.pixar.feature_search.domain.repository.PixarRepository
@@ -11,6 +13,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -46,11 +50,20 @@ object SearchModule {
     }
 
     @Provides
+    fun providesLoggingInterceptor(): HttpLoggingInterceptor = HttpLogger.create()
+
+    @Provides
+    fun providesOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+        return HttpClient.setupOkHttpClient(httpLoggingInterceptor)
+    }
+
+    @Provides
     @Singleton
-    fun providePixarApi(): PixarApi {
+    fun providePixarApi(okHttpClient: OkHttpClient): PixarApi {
         return Retrofit.Builder()
             .baseUrl(PixarApi.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
             .build()
             .create(PixarApi::class.java)
     }

@@ -4,6 +4,7 @@ import com.fatah.pixar.BuildConfig
 import com.fatah.pixar.feature_search.data.remote.dto.PixarDTO
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface PixarApi {
     companion object {
@@ -11,9 +12,9 @@ interface PixarApi {
         const val API_KEY = BuildConfig.API_KEY
     }
 
-    @GET("api?key={key}&q={search_word}")
+    @GET("api")
     suspend fun getSearchImage(
-        @Path("key") key: String,
-        @Path("search_word") search_word: String
+        @Query("key") key: String,
+        @Query("q") search_word: String
     ): PixarDTO
 }
