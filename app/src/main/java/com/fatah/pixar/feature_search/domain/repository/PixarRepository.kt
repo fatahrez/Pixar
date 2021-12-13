@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface PixarRepository {
 
-    fun getSearchImage(key: String): Flow<Resource<Pixar>>
+    fun getSearchImage(key: String, search_word: String): Flow<Resource<Pixar>>
 
 }
