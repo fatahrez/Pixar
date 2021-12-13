@@ -1,6 +1,6 @@
-package com.fatah.pixar.feature_search.domain.model
+package com.fatah.pixar.feature_search.data.remote.dto
 
-data class Hit(
+data class HitDTO(
     val collections: Int,
     val comments: Int,
     val downloads: Int,
