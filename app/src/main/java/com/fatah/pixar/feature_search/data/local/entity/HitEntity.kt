@@ -2,6 +2,7 @@ package com.fatah.pixar.feature_search.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.fatah.pixar.feature_search.domain.model.Hit
 
 @Entity
 data class HitEntity(
@@ -27,4 +28,31 @@ data class HitEntity(
     val webformatHeight: Int,
     val webformatURL: String,
     val webformatWidth: Int
-)
+) {
+    fun toHit(): Hit {
+        return Hit(
+            collections = collections,
+            comments = comments,
+            downloads = downloads,
+            id = id,
+            imageWidth = imageWidth,
+            imageHeight = imageHeight,
+            imageSize = imageSize,
+            largeImageURL = largeImageURL,
+            likes = likes,
+            pageURL = pageURL,
+            previewHeight = previewHeight,
+            previewURL = previewURL,
+            previewWidth = previewWidth,
+            tags = tags,
+            type = type,
+            user = user,
+            userImageURL = userImageURL,
+            user_id = user_id,
+            views = views,
+            webformatHeight = webformatHeight,
+            webformatURL = webformatURL,
+            webformatWidth = webformatWidth
+        )
+    }
+}
