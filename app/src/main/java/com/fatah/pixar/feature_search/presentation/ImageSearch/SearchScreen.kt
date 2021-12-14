@@ -1,9 +1,6 @@
 package com.fatah.pixar
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyColumn
@@ -86,12 +83,12 @@ fun SearchScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                     LazyVerticalGrid(
                         cells = GridCells.Fixed(2),
-                        contentPadding = PaddingValues(16.dp),
+                        contentPadding = PaddingValues(8.dp),
                         modifier = Modifier.fillMaxSize()
                     ) {
                         items(state.searchImages.size) {i ->
                             val image = state.searchImages[i]
-                            SearchResultGrid(hit = image)
+                            SearchResultGrid(hit = image, navController = navController)
                         }
                     }
                 }
@@ -113,10 +110,16 @@ fun SearchScreen(
 @ExperimentalFoundationApi
 @Composable
 fun SearchResultGrid(
-    hit: Hit
+    hit: Hit,
+    navController: NavController
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
+            .clickable(
+                onClick = {
+                    navController.navigate(Screen.ImageDetailScreen.route + "/${hit.id}")
+                }
+            )
     ) {
         Image(
             painter = rememberImagePainter(

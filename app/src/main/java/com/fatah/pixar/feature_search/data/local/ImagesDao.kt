@@ -19,4 +19,13 @@ interface ImagesDao {
 
     @Query("SELECT * FROM hitentity")
     suspend fun getAllImages(): List<HitEntity>
+
+    @Query("SELECT * FROM hitentity WHERE id = :id")
+    suspend fun getIndividualImage(id: String): List<HitEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertIndividualImage(images: List<HitEntity>)
+
+    @Query("DELETE FROM hitentity WHERE id=:id")
+    suspend fun deleteIndividualImage(id: String)
 }

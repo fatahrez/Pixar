@@ -8,6 +8,7 @@ import com.fatah.pixar.feature_search.data.remote.HttpLogger
 import com.fatah.pixar.feature_search.data.remote.PixarApi
 import com.fatah.pixar.feature_search.data.repository.PixarRepositoryImpl
 import com.fatah.pixar.feature_search.domain.repository.PixarRepository
+import com.fatah.pixar.feature_search.domain.usecases.GetIndividualImage
 import com.fatah.pixar.feature_search.domain.usecases.GetSearchImage
 import com.fatah.pixar.feature_search.domain.usecases.GetTopImages
 import dagger.Module
@@ -34,6 +35,12 @@ object SearchModule {
     @Singleton
     fun providesGetTopImagesUsecase(repository: PixarRepository): GetTopImages {
         return GetTopImages(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun providesGetIndividualImageUsecase(repository: PixarRepository): GetIndividualImage {
+        return GetIndividualImage(repository)
     }
 
     @Provides

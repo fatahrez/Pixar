@@ -68,4 +68,32 @@ class PixarRepositoryImpl(
         emit(Resource.Success(finalImagesDao))
     }
 
+    override fun getIndividualImage(key: String, id: String): Flow<Resource<List<Hit>>> = flow {
+        emit(Resource.Loading())
+
+        val imagesDao = dao.getIndividualImage(id).map { it.toHit() }
+        emit(Resource.Loading(data = imagesDao))
+
+        try {
+            val remoteData = api.getIndividualImage(key, id).hits
+            dao.deleteIndividualImage(id)
+            dao.insertIndividualImage(remoteData.map { it.toHitEntity() })
+        } catch (e: HttpException) {
+            emit(Resource.Error(
+                message = "Oops, something went wrong!",
+                data = imagesDao
+            ))
+        } catch (e: IOException) {
+            emit(Resource.Error(
+                message = "Couldn't reach server check your internet connection",
+                data = imagesDao
+            ))
+        }
+
+        val finalIndividualImage = dao.getIndividualImage(id).map {
+            it.toHit()
+        }
+        emit(Resource.Success(finalIndividualImage))
+    }
+
 }

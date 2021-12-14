@@ -23,4 +23,10 @@ interface PixarApi {
         @Query("key") key: String,
         @Query("order") order: String
     ): PixarDTO
+
+    @GET("api")
+    suspend fun getIndividualImage(
+        @Query("key") key: String,
+        @Query("id") id: String
+    ): PixarDTO
 }

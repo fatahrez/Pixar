@@ -1,14 +1,11 @@
 package com.fatah.pixar.feature_search.presentation.ImageList
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -26,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.fatah.pixar.R
+import com.fatah.pixar.Screen
 import com.fatah.pixar.feature_search.domain.model.Hit
 import com.fatah.pixar.feature_search.presentation.BottomContentMenu
 import com.fatah.pixar.feature_search.presentation.BottomMenu
@@ -79,7 +77,7 @@ fun ImageListScreen(
                         ) {
                             items(state.topImages.size) {i ->
                                 val image = state.topImages[i]
-                                HorizontalListItemSection(hit = image)
+                                HorizontalListItemSection(hit = image, navController = navController)
                                 Spacer(modifier = Modifier.padding(8.dp))
                             }
                         }
@@ -87,7 +85,7 @@ fun ImageListScreen(
 
                     items(state.topImages.size) {i ->
                         val image = state.topImages[i]
-                        VerticalListItemSection(hit = image)
+                        VerticalListItemSection(hit = image, navController = navController)
                         Spacer(modifier = Modifier.height(8.dp))
                     }
                 }
@@ -135,7 +133,8 @@ fun HeaderSection() {
 
 @Composable
 fun HorizontalListItemSection(
-    hit: Hit
+    hit: Hit,
+    navController: NavController
 ) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
@@ -144,6 +143,9 @@ fun HorizontalListItemSection(
             .fillMaxHeight()
             .width(screenWidth / 3)
             .clip(RoundedCornerShape(6))
+            .clickable {
+                navController.navigate(Screen.ImageDetailScreen.route + "/${hit.id}")
+            }
     ) {
         Image(
             painter = rememberImagePainter(
@@ -157,7 +159,8 @@ fun HorizontalListItemSection(
 
 @Composable
 fun VerticalListItemSection(
-    hit: Hit
+    hit: Hit,
+    navController: NavController
 ) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
@@ -168,6 +171,9 @@ fun VerticalListItemSection(
             .fillMaxWidth()
             .padding(8.dp)
             .clip(RoundedCornerShape(4))
+            .clickable {
+                navController.navigate(Screen.ImageDetailScreen.route + "/${hit.id}")
+            }
     ) {
         Image(
             painter = rememberImagePainter(
