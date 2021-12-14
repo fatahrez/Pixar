@@ -1,4 +1,4 @@
-package com.fatah.pixar.feature_search.presentation
+package com.fatah.pixar.feature_search.presentation.ImageSearch
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -52,9 +52,11 @@ class GetSearchImageViewModel @Inject constructor(
                                 searchImages = result.data ?: emptyList(),
                                 isLoading = false
                             )
-                            _eventFlow.emit(UIEvent.ShowSnackbar(
-                                result.message ?: "Unknown Error"
-                            ))
+                            _eventFlow.emit(
+                                UIEvent.ShowSnackbar(
+                                    result.message ?: "Unknown Error"
+                                )
+                            )
                         }
                         is Resource.Loading -> {
                             _state.value = state.value.copy(

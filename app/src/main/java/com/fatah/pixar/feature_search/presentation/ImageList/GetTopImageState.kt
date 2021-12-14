@@ -1,4 +1,4 @@
-package com.fatah.pixar.feature_search.presentation
+package com.fatah.pixar.feature_search.presentation.ImageList
 
 import com.fatah.pixar.feature_search.domain.model.Hit
 

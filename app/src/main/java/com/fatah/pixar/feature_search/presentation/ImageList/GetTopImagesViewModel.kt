@@ -1,4 +1,4 @@
-package com.fatah.pixar.feature_search.presentation
+package com.fatah.pixar.feature_search.presentation.ImageList
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -7,13 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.fatah.pixar.core.util.Resource
 import com.fatah.pixar.feature_search.data.remote.PixarApi
 import com.fatah.pixar.feature_search.domain.usecases.GetTopImages
+import com.fatah.pixar.feature_search.presentation.ImageSearch.GetSearchImageViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -46,8 +45,9 @@ class GetTopImagesViewModel @Inject constructor(
                         )
                         _eventFlow.emit(
                             GetSearchImageViewModel.UIEvent.ShowSnackbar(
-                            result.message ?: "Unknown Error"
-                        ))
+                                result.message ?: "Unknown Error"
+                            )
+                        )
                     }
                     is Resource.Loading -> {
                         _state.value = state.value.copy(
