@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.fatah.pixar.R
 import com.fatah.pixar.feature_search.domain.model.Hit
@@ -33,7 +34,9 @@ import com.fatah.pixar.ui.theme.OrangeButton
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun ImageListScreen() {
+fun ImageListScreen(
+    navController: NavController
+) {
     val viewModel: GetTopImagesViewModel = hiltViewModel()
     val state = viewModel.state.value
     val scaffoldState = rememberScaffoldState()
@@ -89,11 +92,15 @@ fun ImageListScreen() {
                 }
             }
         }
-        BottomMenu(items = listOf(
-            BottomContentMenu("Home", R.drawable.baseline_home_24),
-            BottomContentMenu("Search", R.drawable.baseline_search_24),
-            BottomContentMenu("profile", R.drawable.baseline_person_24)
-        ), modifier = Modifier.align(Alignment.BottomCenter))
+        BottomMenu(
+            items = listOf(
+                BottomContentMenu("Home", R.drawable.baseline_home_24),
+                BottomContentMenu("Search", R.drawable.baseline_search_24),
+                BottomContentMenu("profile", R.drawable.baseline_person_24)
+            ),
+            modifier = Modifier.align(Alignment.BottomCenter),
+            navController = navController
+        )
     }
 }
 

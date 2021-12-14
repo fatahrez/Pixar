@@ -16,7 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.fatah.pixar.Screen
+import java.util.*
 
 @Composable
 fun BottomMenu(
@@ -25,7 +29,8 @@ fun BottomMenu(
     activeHighlightColor: Color = Color.Black,
     activeTextColor: Color = Color.White,
     inactiveTextColor: Color = Color.LightGray,
-    initialSelectedItemIndex: Int = 0
+    initialSelectedItemIndex: Int = 0,
+    navController: NavController
 ) {
     var selectedItemIndex by remember {
         mutableStateOf(initialSelectedItemIndex)
@@ -44,7 +49,9 @@ fun BottomMenu(
                 isSelected = index == selectedItemIndex,
                 activeHighlightColor = activeHighlightColor,
                 activeTextColor = activeTextColor,
-                inactiveTextColor = inactiveTextColor
+                inactiveTextColor = inactiveTextColor,
+                navController = navController,
+                navigateTo = item.title.lowercase(Locale.getDefault()) + "_screen"
             ) {
                 selectedItemIndex = index
             }
@@ -59,6 +66,8 @@ fun BottomMenuItem(
     activeHighlightColor: Color = Color.Black,
     activeTextColor: Color = Color.White,
     inactiveTextColor: Color = Color.LightGray,
+    navController: NavController,
+    navigateTo: String,
     onItemClick:() ->Unit
 ) {
     Column(
@@ -66,7 +75,7 @@ fun BottomMenuItem(
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .clickable {
-                onItemClick()
+               navController.navigate(navigateTo)
             }
     ) {
         Box(
