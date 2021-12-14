@@ -46,7 +46,6 @@ fun BottomMenu(
         items.forEachIndexed { index, item ->
             BottomMenuItem(
                 item = item,
-                isSelected = index == selectedItemIndex,
                 activeHighlightColor = activeHighlightColor,
                 activeTextColor = activeTextColor,
                 inactiveTextColor = inactiveTextColor,
@@ -62,7 +61,6 @@ fun BottomMenu(
 @Composable
 fun BottomMenuItem(
     item: BottomContentMenu,
-    isSelected: Boolean = false,
     activeHighlightColor: Color = Color.Black,
     activeTextColor: Color = Color.White,
     inactiveTextColor: Color = Color.LightGray,
@@ -82,19 +80,19 @@ fun BottomMenuItem(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .clip(RoundedCornerShape(10.dp))
-                .background(if (isSelected) activeHighlightColor else Color.Transparent)
+                .background(if (item.active) activeHighlightColor else Color.Transparent)
                 .padding(8.dp)
         ) {
             Icon(
                 painter = painterResource(id = item.iconId),
                 contentDescription = item.title,
-                tint = if (isSelected) activeTextColor else inactiveTextColor,
+                tint = if (item.active) activeTextColor else inactiveTextColor,
                 modifier = Modifier.size(20.dp)
             )
         }
         Text(
             text = item.title,
-            color = if (isSelected) activeTextColor else inactiveTextColor
+            color = if (item.active) activeTextColor else inactiveTextColor
         )
     }
 }

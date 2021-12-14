@@ -75,28 +75,29 @@ fun ImageListScreen(
                         Spacer(modifier = Modifier.height(16.dp))
                         LazyRow(modifier = Modifier
                             .height(screenHeight/4)
+                            .padding(4.dp)
                         ) {
                             items(state.topImages.size) {i ->
                                 val image = state.topImages[i]
-                                horizontalListItemSection(hit = image)
+                                HorizontalListItemSection(hit = image)
                                 Spacer(modifier = Modifier.padding(8.dp))
                             }
                         }
-                        Spacer(modifier = Modifier.height(8.dp))
                     }
+
                     items(state.topImages.size) {i ->
                         val image = state.topImages[i]
                         VerticalListItemSection(hit = image)
-                        Spacer(modifier = Modifier.padding(8.dp))
+                        Spacer(modifier = Modifier.height(8.dp))
                     }
                 }
             }
         }
         BottomMenu(
             items = listOf(
-                BottomContentMenu("Home", R.drawable.baseline_home_24),
-                BottomContentMenu("Search", R.drawable.baseline_search_24),
-                BottomContentMenu("profile", R.drawable.baseline_person_24)
+                BottomContentMenu("Home", R.drawable.baseline_home_24, true),
+                BottomContentMenu("Search", R.drawable.baseline_search_24, false),
+                BottomContentMenu("profile", R.drawable.baseline_person_24, false)
             ),
             modifier = Modifier.align(Alignment.BottomCenter),
             navController = navController
@@ -133,15 +134,14 @@ fun HeaderSection() {
 }
 
 @Composable
-fun horizontalListItemSection(
+fun HorizontalListItemSection(
     hit: Hit
 ) {
     val configuration = LocalConfiguration.current
-    val screenHeight = configuration.screenHeightDp.dp
     val screenWidth = configuration.screenWidthDp.dp
     Box(
         modifier = Modifier
-            .height(screenHeight / 4)
+            .fillMaxHeight()
             .width(screenWidth / 3)
             .clip(RoundedCornerShape(6))
     ) {
