@@ -15,6 +15,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -25,6 +26,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberImagePainter
 import com.fatah.pixar.R
 import com.fatah.pixar.feature_search.domain.model.Hit
+import com.fatah.pixar.feature_search.presentation.BottomContentMenu
+import com.fatah.pixar.feature_search.presentation.BottomMenu
 import com.fatah.pixar.feature_search.presentation.ImageSearch.GetSearchImageViewModel
 import com.fatah.pixar.ui.theme.OrangeButton
 import kotlinx.coroutines.flow.collectLatest
@@ -49,41 +52,48 @@ fun ImageListScreen() {
     }
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
-    Scaffold(
-        scaffoldState = scaffoldState
-    ) {
-        Box(
-            modifier = Modifier
-                .background(MaterialTheme.colors.background)
+    Box(modifier = Modifier.fillMaxSize()) {
+        Scaffold(
+            scaffoldState = scaffoldState
         ) {
-            LazyColumn(
+            Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
+                    .background(MaterialTheme.colors.background)
             ) {
-                item {
-                    HeaderSection()
-                    Spacer(modifier = Modifier.height(16.dp))
-                    viewModel.showTopImages()
-                    Spacer(modifier = Modifier.height(16.dp))
-                    LazyRow(modifier = Modifier
-                        .height(screenHeight/4)
-                    ) {
-                        items(state.topImages.size) {i ->
-                            val image = state.topImages[i]
-                            horizontalListItemSection(hit = image)
-                            Spacer(modifier = Modifier.padding(8.dp))
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
+                ) {
+                    item {
+                        HeaderSection()
+                        Spacer(modifier = Modifier.height(16.dp))
+                        viewModel.showTopImages()
+                        Spacer(modifier = Modifier.height(16.dp))
+                        LazyRow(modifier = Modifier
+                            .height(screenHeight/4)
+                        ) {
+                            items(state.topImages.size) {i ->
+                                val image = state.topImages[i]
+                                horizontalListItemSection(hit = image)
+                                Spacer(modifier = Modifier.padding(8.dp))
+                            }
                         }
+                        Spacer(modifier = Modifier.height(8.dp))
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-                items(state.topImages.size) {i ->
-                    val image = state.topImages[i]
-                    VerticalListItemSection(hit = image)
-                    Spacer(modifier = Modifier.padding(8.dp))
+                    items(state.topImages.size) {i ->
+                        val image = state.topImages[i]
+                        VerticalListItemSection(hit = image)
+                        Spacer(modifier = Modifier.padding(8.dp))
+                    }
                 }
             }
         }
+        BottomMenu(items = listOf(
+            BottomContentMenu("Home", R.drawable.baseline_home_24),
+            BottomContentMenu("Search", R.drawable.baseline_search_24),
+            BottomContentMenu("profile", R.drawable.baseline_person_24)
+        ), modifier = Modifier.align(Alignment.BottomCenter))
     }
 }
 
