@@ -15,7 +15,7 @@ interface ImagesDao {
     suspend fun deleteImages()
 
     @Query("SELECT * FROM hitentity WHERE tags LIKE '%' || :search_word || '%'")
-    suspend fun getSearchedWords(search_word: String): List<HitEntity>
+    suspend fun getSearchedImages(search_word: String): List<HitEntity>
 
     @Query("SELECT * FROM hitentity")
     suspend fun getAllImages(): List<HitEntity>

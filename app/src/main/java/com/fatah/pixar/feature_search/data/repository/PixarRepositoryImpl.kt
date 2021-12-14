@@ -36,7 +36,7 @@ class PixarRepositoryImpl(
                 data = imagesDao
             ))
         }
-        val finalImagesDao = dao.getSearchedWords(search_word).map { it.toHit() }
+        val finalImagesDao = dao.getSearchedImages(search_word).map { it.toHit() }
         emit(Resource.Success(finalImagesDao))
     }
 

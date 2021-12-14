@@ -1,28 +1,19 @@
 package com.fatah.pixar.feature_search.domain.usecases
 
 import com.fatah.pixar.core.util.Resource
-import com.fatah.pixar.feature_search.data.repository.FakePixarRepository
 import com.fatah.pixar.feature_search.domain.model.Hit
 import com.fatah.pixar.feature_search.domain.repository.PixarRepository
+import com.google.common.truth.Truth
 
 
 import io.mockk.mockk
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.runBlocking
+import org.junit.Ignore
 import org.junit.Test
+import java.net.UnknownHostException
 
 class GetSearchImageTest {
-
-    private lateinit var getSearchImage: GetSearchImage
-    private lateinit var fakePixarRepository: FakePixarRepository
-
-//    @Before
-//    fun setup() {
-//        fakePixarRepository = FakePixarRepository()
-//        getSearchImage =GetSearchImage(fakePixarRepository)
-//    }
 
     private fun mockRepository(flowReturn: Flow<Resource<List<Hit>>>) = object :
         PixarRepository {
@@ -31,13 +22,53 @@ class GetSearchImageTest {
         }
 
     @Test
-    fun test_searchStartWithLoading_ResourceLoading() = runBlocking{
+    fun `Search starts with loading RETURN Resource Loading`() = runBlocking{
         val hit = mockk<Hit>()
-        val repository = mockRepository(flowOf(Resource.Loading(listOf(hit, hit, hit))))
+        val repository = mockRepository(flow {
+            emit(Resource.Loading())
+            emit(Resource.Success(listOf(hit, hit, hit)))
+        })
 
         val result = GetSearchImage(repository).invoke("key","yellow flowers").first()
 
-        print(result)
         assert((result is Resource.Loading))
+    }
+
+
+    @Ignore("throws error - rewrite later")
+    @Test
+    fun `Search Throws HttpException RETURN Resource Error`() = runBlocking {
+        val repository = mockRepository(flow {
+            throw UnknownHostException()
+        })
+
+        val result = GetSearchImage(repository).invoke("key", "yellow flowers")
+            .last()
+
+        assert((result is Resource.Error))
+    }
+
+    @Test
+    fun `Search empty results RETURNS emptyList`() = runBlocking {
+        val repository = mockRepository(flowOf(Resource.Success(emptyList())))
+
+        val result = GetSearchImage(repository).invoke("key", "yellow flowers")
+            .last()
+
+        assert(result.data?.isEmpty() ?: false)
+    }
+
+    @Test
+    fun `Search api successfully RETURNS Resource Success + Data`() = runBlocking {
+        val hit = mockk<Hit>()
+        val repository = mockRepository(flow {
+            emit(Resource.Loading())
+            emit(Resource.Success(listOf(hit, hit, hit)))
+        })
+
+        val result = GetSearchImage(repository).invoke("key", "yellow flowers")
+            .last()
+
+        assert(result is Resource.Success && result.data?.size ?: false == 3)
     }
 }
