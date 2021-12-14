@@ -17,4 +17,10 @@ interface PixarApi {
         @Query("key") key: String,
         @Query("q") search_word: String
     ): PixarDTO
+
+    @GET("api")
+    suspend fun getTopImages(
+        @Query("key") key: String,
+        @Query("order") order: String
+    ): PixarDTO
 }

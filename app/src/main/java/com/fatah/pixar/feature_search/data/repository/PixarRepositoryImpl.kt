@@ -18,7 +18,7 @@ class PixarRepositoryImpl(
     override fun getSearchImage(key: String, search_word: String): Flow<Resource<List<Hit>>> = flow {
         emit(Resource.Loading())
 
-        val imagesDao = dao.getAllImages().map { it.toHit() }
+        val imagesDao = dao.getSearchedImages(search_word).map { it.toHit() }
         emit(Resource.Loading(data = imagesDao))
 
         try {
@@ -37,6 +37,34 @@ class PixarRepositoryImpl(
             ))
         }
         val finalImagesDao = dao.getSearchedImages(search_word).map { it.toHit() }
+        emit(Resource.Success(finalImagesDao))
+    }
+
+    override fun getTopImages(key: String, order: String): Flow<Resource<List<Hit>>> = flow {
+        emit(Resource.Loading())
+
+        val imagesDao = dao.getAllImages().map { it.toHit() }
+        emit(Resource.Loading(data = imagesDao))
+
+        try {
+            val remoteData = api.getTopImages(key, order).hits
+            dao.deleteImages()
+            dao.insertImages(remoteData.map { it.toHitEntity() })
+        } catch (e: HttpException) {
+            emit(Resource.Error(
+                message = "Oops, something went wrong!",
+                data = imagesDao
+            ))
+        } catch (e: IOException) {
+            emit(Resource.Error(
+                message = "Couldn't reach server check your internet connection",
+                data = imagesDao
+            ))
+        }
+
+        val finalImagesDao = dao.getAllImages().map {
+            it.toHit()
+        }
         emit(Resource.Success(finalImagesDao))
     }
 

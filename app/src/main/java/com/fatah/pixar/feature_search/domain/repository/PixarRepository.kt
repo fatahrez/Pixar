@@ -9,4 +9,5 @@ interface PixarRepository {
 
     fun getSearchImage(key: String, search_word: String): Flow<Resource<List<Hit>>>
 
+    fun getTopImages(key: String, order: String): Flow<Resource<List<Hit>>>
 }

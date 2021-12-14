@@ -14,12 +14,18 @@ import org.junit.Test
 import java.net.UnknownHostException
 
 class GetSearchImageTest {
+    companion object {
+        fun mockRepository(flowReturn: Flow<Resource<List<Hit>>>) = object :
+            PixarRepository {
+            override fun getSearchImage(key: String, search_word: String): Flow<Resource<List<Hit>>> =
+                flowReturn
 
-    private fun mockRepository(flowReturn: Flow<Resource<List<Hit>>>) = object :
-        PixarRepository {
-        override fun getSearchImage(key: String, search_word: String): Flow<Resource<List<Hit>>> =
-            flowReturn
+            override fun getTopImages(key: String, order: String): Flow<Resource<List<Hit>>> =
+                flowReturn
         }
+    }
+
+
 
     @Test
     fun `Search starts with loading RETURN Resource Loading`() = runBlocking{

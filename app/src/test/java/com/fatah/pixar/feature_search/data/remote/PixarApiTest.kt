@@ -14,7 +14,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.InputStreamReader
 
-@ExperimentalCoroutinesApi
 class PixarApiTest {
 
     companion object {
@@ -55,7 +54,7 @@ class PixarApiTest {
     }
 
     @Test
-    fun `search success does not return false data RETURNS false`() = runBlocking{
+    fun `search success does not return false data RETURNS true`() = runBlocking{
         val response = MockResponse()
             .setBody(jsonToString("ApiResponse.json"))
             .setResponseCode(200)
@@ -63,6 +62,32 @@ class PixarApiTest {
         mockServer.enqueue(response = response)
 
         val search = api.getSearchImage("key","yellow flowers")
+
+        Truth.assertThat(search.totalHits).isNotEqualTo(499)
+    }
+
+    @Test
+    fun `test top images endpoint success number hits RETURNS true`() = runBlocking {
+        val response = MockResponse()
+            .setBody(jsonToString("ApiResponse.json"))
+            .setResponseCode(200)
+
+        mockServer.enqueue(response = response)
+
+        val search = api.getTopImages("key","ec")
+
+        Truth.assertThat(search.totalHits).isEqualTo(500)
+    }
+
+    @Test
+    fun `top images success does not return false data RETURNS true`() = runBlocking{
+        val response = MockResponse()
+            .setBody(jsonToString("ApiResponse.json"))
+            .setResponseCode(200)
+
+        mockServer.enqueue(response = response)
+
+        val search = api.getTopImages("key","ec")
 
         Truth.assertThat(search.totalHits).isNotEqualTo(499)
     }
