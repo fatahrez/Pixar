@@ -42,7 +42,7 @@ class PixarApiTest {
     }
 
     @Test
-    fun `search success RETURNS response`() = runBlocking{
+    fun `search success RETURNS true`() = runBlocking{
         val response = MockResponse()
             .setBody(jsonToString("ApiResponse.json"))
             .setResponseCode(200)
@@ -55,7 +55,7 @@ class PixarApiTest {
     }
 
     @Test
-    fun `search success does not return false data RETURNS response`() = runBlocking{
+    fun `search success does not return false data RETURNS false`() = runBlocking{
         val response = MockResponse()
             .setBody(jsonToString("ApiResponse.json"))
             .setResponseCode(200)
