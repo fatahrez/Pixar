@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.fatah.pixar.feature_search.presentation.GetSearchImageViewModel
+import com.fatah.pixar.feature_search.presentation.GetTopImagesViewModel
 import com.fatah.pixar.ui.theme.PixarTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -28,7 +29,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PixarTheme {
-                val viewModel: GetSearchImageViewModel = hiltViewModel()
+                val viewModel: GetTopImagesViewModel = hiltViewModel()
                 val state = viewModel.state.value
                 val scaffoldState = rememberScaffoldState()
 
@@ -56,18 +57,19 @@ class MainActivity : ComponentActivity() {
                                 .fillMaxSize()
                                 .padding(16.dp)
                         ) {
-                            TextField(
-                                value = viewModel.searchQuery.value,
-                                onValueChange = viewModel::onSearch,
-                                modifier = Modifier.fillMaxWidth(),
-                                placeholder = {
-                                    Text(text = "Search...")
-                                }
-                            )
+//                            TextField(
+//                                value = viewModel.searchQuery.value,
+//                                onValueChange = viewModel::onSearch,
+//                                modifier = Modifier.fillMaxWidth(),
+//                                placeholder = {
+//                                    Text(text = "Search...")
+//                                }
+//                            )
                             Spacer(modifier = Modifier.height(16.dp))
+                            viewModel.showTopImages()
                             LazyColumn(modifier = Modifier.fillMaxSize()) {
-                                items(state.searchImages.size) {i ->
-                                    val image = state.searchImages[i]
+                                items(state.topImages.size) {i ->
+                                    val image = state.topImages[i]
                                     Log.i(TAG, "onCreate: " + image.user)
                                     Text(text = image.user)
                                 }

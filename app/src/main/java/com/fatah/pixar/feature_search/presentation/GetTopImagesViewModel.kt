@@ -9,6 +9,8 @@ import com.fatah.pixar.feature_search.data.remote.PixarApi
 import com.fatah.pixar.feature_search.domain.usecases.GetTopImages
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -22,34 +24,37 @@ class GetTopImagesViewModel @Inject constructor(
     private val _state = mutableStateOf(GetTopImageState())
     val state: State<GetTopImageState> = _state
 
-    private var topImagesJob: Job? = null
+    private val _eventFlow = MutableSharedFlow<GetSearchImageViewModel.UIEvent>()
+    val eventFlow = _eventFlow.asSharedFlow()
 
+    init {
+        showTopImages()
+    }
 
     fun showTopImages() {
-        topImagesJob = viewModelScope.launch {
-            getTopImages(PixarApi.API_KEY, "ec")
-                .onEach { result ->
-                    when(result) {
-                        is Resource.Success -> {
-                            _state.value = state.value.copy(
-                                topImages = result.data ?: emptyList(),
-                                isLoading = false
-                            )
-                        }
-                        is Resource.Error -> {
-                            _state.value = state.value.copy(
-                                topImages = result.data ?: emptyList(),
-                                isLoading = false
-                            )
-                        }
-                        is Resource.Loading -> {
-                            _state.value = state.value.copy(
-                                topImages = result.data ?: emptyList(),
-                                isLoading = true
-                            )
-                        }
+        getTopImages(PixarApi.API_KEY, "ec")
+            .onEach { result ->
+                when(result) {
+                    is Resource.Success -> {
+                        _state.value = state.value.copy(
+                            topImages = result.data ?: emptyList()
+                        )
                     }
-                }.launchIn(this)
-        }
+                    is Resource.Error -> {
+                        _state.value = state.value.copy(
+                            topImages = result.data ?: emptyList()
+                        )
+                        _eventFlow.emit(
+                            GetSearchImageViewModel.UIEvent.ShowSnackbar(
+                            result.message ?: "Unknown Error"
+                        ))
+                    }
+                    is Resource.Loading -> {
+                        _state.value = state.value.copy(
+                            isLoading = true
+                        )
+                    }
+                }
+            }.launchIn(viewModelScope)
     }
 }
