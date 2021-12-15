@@ -38,7 +38,6 @@ fun ImageListScreen(
     val viewModel: GetTopImagesViewModel = hiltViewModel()
     val state = viewModel.state.value
     val scaffoldState = rememberScaffoldState()
-    val scrollState = rememberScrollState()
 
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
@@ -72,7 +71,7 @@ fun ImageListScreen(
                         viewModel.showTopImages()
                         Spacer(modifier = Modifier.height(16.dp))
                         LazyRow(modifier = Modifier
-                            .height(screenHeight/4)
+                            .height(screenHeight/5)
                             .padding(4.dp)
                         ) {
                             items(state.topImages.size) {i ->
@@ -122,10 +121,13 @@ fun HeaderSection() {
 //            val painter = painterResource(id = R.drawable.avatar)
             Image(
                 painter = rememberImagePainter(
-                    data = "https://cdn.pixabay.com/user/2021/07/27/14-49-34-818_250x250.jpg"
+                    data = "https://cdn.pixabay.com/user/2021/07/27/14-49-34-818_250x250.jpg",
+                    builder = {
+                        placeholder(R.drawable.placeholder)
+                    }
                 ),
                 contentDescription = "avatar",
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
             )
         }
     }
@@ -149,7 +151,10 @@ fun HorizontalListItemSection(
     ) {
         Image(
             painter = rememberImagePainter(
-                data = hit.webformatURL
+                data = hit.webformatURL,
+                builder = {
+                    placeholder(R.drawable.placeholder)
+                }
             ),
             contentDescription = hit.tags,
             contentScale = ContentScale.Crop
@@ -177,7 +182,10 @@ fun VerticalListItemSection(
     ) {
         Image(
             painter = rememberImagePainter(
-                data = hit.webformatURL
+                data = hit.webformatURL,
+                builder = {
+                    placeholder(R.drawable.placeholder)
+                }
             ), 
             contentDescription = hit.tags,
             contentScale = ContentScale.Crop,

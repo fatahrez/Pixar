@@ -123,7 +123,10 @@ fun SearchResultGrid(
     ) {
         Image(
             painter = rememberImagePainter(
-                data = hit.webformatURL
+                data = hit.webformatURL,
+                builder = {
+                    placeholder(R.drawable.placeholder)
+                }
             ),
             contentDescription = hit.tags,
             contentScale = ContentScale.Crop,

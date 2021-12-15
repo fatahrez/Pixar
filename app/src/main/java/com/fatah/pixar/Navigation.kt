@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.fatah.pixar.feature_search.presentation.ImageDetailScreen
 import com.fatah.pixar.feature_search.presentation.ImageList.ImageListScreen
+import com.fatah.pixar.feature_search.presentation.profile.ProfileScreen
 
 @ExperimentalFoundationApi
 @Composable
@@ -26,6 +27,10 @@ fun Navigation() {
         composable(route = Screen.ImageDetailScreen.route + "/{imageId}") {
             ImageDetailScreen()
         }
+
+        composable(route = Screen.ProfileScreen.route) {
+            ProfileScreen(navController = navController)
+        }
     }
 }
 
@@ -33,4 +38,5 @@ sealed class Screen(val route: String) {
     object HomeScreen: Screen("home_screen")
     object SearchScreen: Screen("search_screen")
     object ImageDetailScreen: Screen("image_detail_screen")
+    object ProfileScreen: Screen("profile_screen")
 }

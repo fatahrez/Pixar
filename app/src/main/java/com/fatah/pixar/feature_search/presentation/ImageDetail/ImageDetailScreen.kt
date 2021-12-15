@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
+import com.fatah.pixar.R
 import com.fatah.pixar.feature_search.domain.model.Hit
 import com.fatah.pixar.feature_search.presentation.ImageDetail.ImageDetailViewModel
 
@@ -34,7 +35,10 @@ fun ImageDetailScreen(
 
             Image(
                 painter = rememberImagePainter(
-                    data = state.individualImage[i].largeImageURL
+                    data = state.individualImage[i].largeImageURL,
+                    builder = {
+                        placeholder(R.drawable.placeholder)
+                    }
                 ),
                 contentDescription = state.individualImage[i].tags,
                 contentScale = ContentScale.Crop,
