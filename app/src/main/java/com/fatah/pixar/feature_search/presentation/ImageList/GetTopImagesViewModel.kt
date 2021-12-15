@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fatah.pixar.core.util.Resource
 import com.fatah.pixar.feature_search.data.remote.PixarApi
+import com.fatah.pixar.feature_search.domain.usecases.GetSearchImage
 import com.fatah.pixar.feature_search.domain.usecases.GetTopImages
 import com.fatah.pixar.feature_search.presentation.ImageSearch.GetSearchImageViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,12 +37,14 @@ class GetTopImagesViewModel @Inject constructor(
                 when(result) {
                     is Resource.Success -> {
                         _state.value = state.value.copy(
-                            topImages = result.data ?: emptyList()
+                            topImages = result.data ?: emptyList(),
+                            isLoading = false
                         )
                     }
                     is Resource.Error -> {
                         _state.value = state.value.copy(
-                            topImages = result.data ?: emptyList()
+                            topImages = result.data ?: emptyList(),
+                            isLoading = false
                         )
                         _eventFlow.emit(
                             GetSearchImageViewModel.UIEvent.ShowSnackbar(

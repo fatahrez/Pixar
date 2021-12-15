@@ -54,7 +54,6 @@ class ProfileViewModel @Inject constructor(
                     }
                     is Resource.Loading -> {
                         _state.value = state.value.copy(
-                            dogImages = result.data ?: emptyList(),
                             isLoading = true
                         )
                     }

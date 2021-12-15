@@ -64,12 +64,12 @@ fun ProfileScreen(
                             ){
                         Image(
                             painter = rememberImagePainter(
-                                data = state.dogImages[0].userImageURL,
+                                data = state.dogImages[1].userImageURL,
                                 builder = {
                                     placeholder(R.drawable.placeholder)
                                 }
                             ),
-                            contentDescription = state.dogImages[0].user,
+                            contentDescription = state.dogImages[1].user,
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .height(150.dp)
@@ -86,7 +86,7 @@ fun ProfileScreen(
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
-                                text = state.dogImages[0].user,
+                                text = state.dogImages[1].user,
                                 style = MaterialTheme.typography.h5
                             )
                         }
