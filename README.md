@@ -1,5 +1,28 @@
+<p align="left">
+  <a href="#"><img alt="Android OS" src="https://img.shields.io/badge/OS-Android-3DDC84?style=flat-square&logo=android"></a>
+  <a href="#"><img alt="Languages-Kotlin" src="https://flat.badgen.net/badge/Language/Kotlin?icon=https://raw.githubusercontent.com/binaryshrey/Awesome-Android-Open-Source-Projects/master/assets/Kotlin_Logo_icon_white.svg&color=f18e33"/></a>
+  <a href="#"><img alt="PRs" src="https://img.shields.io/badge/PRs-Welcome-3DDC84?style=flat-square"></a>
+</p>
+
 # Pixar
-Search image app [Adanian Labs Interview], Android developer role
+This is App shows you Images from the **Pixabay API**
+
+## Table of Contents
+
+- [Functionalities](#functionalities)
+- [Approach](#approach)
+- [Screenshots](#screenshots)
+- [How To Setup](#how-to-setup)
+- [Libraries Used](#libraries-used)
+- [Author Info](#author-info)
+
+
+## Functionalities
+
+- **Top Images** - A user is able to See Top Images
+- **Image Details** - A user is able to see Image details when they click on an Image
+- **Search Images** - A user can search for Images
+- **Profile Screen** - A user get's to see a profile screen
 
 ## Approach ##
 ### Architecture 
@@ -47,6 +70,18 @@ This App uses Clean Architecture to ensure:
 ## Screenshots
 <img src="https://raw.githubusercontent.com/fatahrez/Pixar/development/screenshots/Screenshot_20211215_121124.png" width="300"/>.<img src="https://raw.githubusercontent.com/fatahrez/Pixar/development/screenshots/Screenshot_20211215_121147.png" width="300"/>.<img src="https://raw.githubusercontent.com/fatahrez/Pixar/development/screenshots/Screenshot_20211215_121200.png" width="300"/>.<img src="https://raw.githubusercontent.com/fatahrez/Pixar/development/screenshots/Screenshot_20211215_121208.png" width="300"/>
 
+## How to Setup
+
+Clone this repo
+
+    $ git clone git@github.com:fatahrez/Pixar.git
+
+or HTTPS
+
+    $ git clone https://github.com/fatahrez/Pixar.git
+
+Open the project with Android Studio and build using gradle. Feel free to run the App on your phone.
+
 ## Libraries used
 
 - **Retrofit** - Android Network Client, Used to consume API from Pixabay API
@@ -58,3 +93,12 @@ This App uses Clean Architecture to ensure:
 - **Coil Image** - Image Loading library
 - **Lifecycle library** - Majorly to define the ViewModels of the app
 - **Navigation** - To navigate to different screens of the App
+
+# Author Info 
+
+Twitter - [@Abdullfertah](https://twitter.com/Abdullfertah)
+
+LinkedIn - [Abdulfatah](https://www.linkedin.com/in/abdulfatah-mohamed-83709a177/)
+
+
+[Back To The Top](#pixar)
