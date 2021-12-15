@@ -91,4 +91,31 @@ class PixarApiTest {
 
         Truth.assertThat(search.totalHits).isNotEqualTo(499)
     }
+
+    @Test
+    fun `test individual image endpoint success number hits RETURNS true`() = runBlocking {
+        val response = MockResponse()
+            .setBody(jsonToString("ApiResponse.json"))
+            .setResponseCode(200)
+
+        mockServer.enqueue(response = response)
+
+        val image = api.getIndividualImage("key","id")
+
+        Truth.assertThat(image.totalHits).isEqualTo(500)
+    }
+
+    @Test
+    fun `individual image success does not return false data RETURNS true`() = runBlocking{
+        val response = MockResponse()
+            .setBody(jsonToString("ApiResponse.json"))
+            .setResponseCode(200)
+
+        mockServer.enqueue(response = response)
+
+        val image = api.getTopImages("key","id")
+
+        Truth.assertThat(image.totalHits).isNotEqualTo(499)
+    }
+
 }

@@ -53,9 +53,6 @@ fun ImageListScreen(
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
     Box(modifier = Modifier.fillMaxSize()) {
-        Scaffold(
-            scaffoldState = scaffoldState
-        ) {
             Box(
                 modifier = Modifier
                     .background(MaterialTheme.colors.background)
@@ -67,8 +64,6 @@ fun ImageListScreen(
                 ) {
                     item {
                         HeaderSection()
-                        Spacer(modifier = Modifier.height(16.dp))
-                        viewModel.showTopImages()
                         Spacer(modifier = Modifier.height(16.dp))
                         LazyRow(modifier = Modifier
                             .height(screenHeight/5)
@@ -89,7 +84,6 @@ fun ImageListScreen(
                     }
                 }
             }
-        }
         BottomMenu(
             items = listOf(
                 BottomContentMenu("Home", R.drawable.baseline_home_24, true),
@@ -118,7 +112,6 @@ fun HeaderSection() {
                 .size(40.dp)
                 .clip(RoundedCornerShape(50))
         ) {
-//            val painter = painterResource(id = R.drawable.avatar)
             Image(
                 painter = rememberImagePainter(
                     data = "https://cdn.pixabay.com/user/2021/07/27/14-49-34-818_250x250.jpg",
@@ -157,8 +150,10 @@ fun HorizontalListItemSection(
                 }
             ),
             contentDescription = hit.tags,
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
         )
+
     }
 }
 
@@ -186,7 +181,7 @@ fun VerticalListItemSection(
                 builder = {
                     placeholder(R.drawable.placeholder)
                 }
-            ), 
+            ),
             contentDescription = hit.tags,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
