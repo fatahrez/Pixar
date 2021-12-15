@@ -118,7 +118,6 @@ fun HeaderSection() {
                 .size(40.dp)
                 .clip(RoundedCornerShape(50))
         ) {
-//            val painter = painterResource(id = R.drawable.avatar)
             Image(
                 painter = rememberImagePainter(
                     data = "https://cdn.pixabay.com/user/2021/07/27/14-49-34-818_250x250.jpg",

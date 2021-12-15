@@ -19,7 +19,7 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val getSearchImage: GetSearchImage
 ): ViewModel() {
-    private val searchQuery = "Dog"
+    private val searchQuery = "dog"
 
     private val _state = mutableStateOf(ProfileState())
     val state: State<ProfileState> = _state
