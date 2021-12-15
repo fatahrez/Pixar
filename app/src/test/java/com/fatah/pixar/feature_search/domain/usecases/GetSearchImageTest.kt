@@ -22,6 +22,9 @@ class GetSearchImageTest {
 
             override fun getTopImages(key: String, order: String): Flow<Resource<List<Hit>>> =
                 flowReturn
+
+            override fun getIndividualImage(key: String, id: String): Flow<Resource<List<Hit>>> =
+                flowReturn
         }
     }
 
