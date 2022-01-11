@@ -8,9 +8,9 @@
     <application
         android:name=".PixarApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/baseline_photo_camera_black_48"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/baseline_photo_camera_black_48"
         android:supportsRtl="true"
         android:theme="@style/Theme.Pixar"
         android:usesCleartextTraffic="true">

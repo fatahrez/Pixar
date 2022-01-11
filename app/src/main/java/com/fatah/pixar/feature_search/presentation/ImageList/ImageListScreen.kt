@@ -63,7 +63,7 @@ fun ImageListScreen(
                         .padding(16.dp)
                 ) {
                     item {
-                        HeaderSection()
+                        HeaderSection(navController)
                         Spacer(modifier = Modifier.height(16.dp))
                         LazyRow(modifier = Modifier
                             .height(screenHeight/5)
@@ -97,7 +97,9 @@ fun ImageListScreen(
 }
 
 @Composable
-fun HeaderSection() {
+fun HeaderSection(
+    navController: NavController
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
@@ -121,6 +123,9 @@ fun HeaderSection() {
                 ),
                 contentDescription = "avatar",
                 contentScale = ContentScale.Crop,
+                modifier = Modifier.clickable {
+                    navController.navigate(Screen.ProfileScreen.route)
+                }
             )
         }
     }
